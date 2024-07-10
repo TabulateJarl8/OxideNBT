@@ -1,17 +1,22 @@
 <script setup lang="ts">
-    import HelloWorld from './components/HelloWorld.vue'
+    import {ref} from 'vue'
+    import {open} from '@tauri-apps/api/dialog'
+
+    const pickedFile = ref < string | null > (null)
+    async function pickFile() {
+        const selected = await open({multiple: false})
+        if (Array.isArray(selected)) {
+            pickedFile.value = selected[0]
+        } else if (selected !== null) {
+            pickedFile.value = selected
+        }
+    }
 </script>
 
 <template>
-    <div>
-        <a href="https://vitejs.dev" target="_blank">
-            <img src="/vite.svg" class="logo" alt="Vite logo" />
-        </a>
-        <a href="https://vuejs.org/" target="_blank">
-            <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-        </a>
-    </div>
-    <HelloWorld msg="Vite + Vue" />
+    <input type='file' @click.prevent="pickFile" class='file-input file-input-bordered w-full max-w-xs' />
+    <br>
+    <p>{{ pickedFile }}</p>
 </template>
 
 <style scoped>
