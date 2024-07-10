@@ -5,8 +5,8 @@
 </script>
 
 <template>
-    <!-- <FileChooser @response="(file) => chosenFile = file" /> -->
-    <FileChooser />
+    <FileChooser @fileSelected="(file: string) => chosenFile = file" />
+    <br>{{ chosenFile }}
 </template>
 
 <style scoped>
